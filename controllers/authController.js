@@ -11,7 +11,6 @@ exports.login = async (req, res) => {
       .json({ error: "Username and password are required" });
   }
   try {
-
     const user = await authService.findUserByUsername(username);
 
     if (!user || !(await authService.validatePassword(user, password))) {
@@ -19,8 +18,7 @@ exports.login = async (req, res) => {
     }
     const token = jwt.sign(
       { id: user._id, username: user.username, role: user.role },
-      JWT_SECRET,
-      { expiresIn: "24h" }
+      JWT_SECRET
     );
     res.json({ token });
   } catch (err) {
